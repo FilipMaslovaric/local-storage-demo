@@ -3,19 +3,42 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+
+  state = {
+    clicked: 0
+  }
+
+  handleClick = () => {
+
+    const clicksTotal = ++this.state.clicked;
+
+    console.log('Button clicked!');
+
+    this.setState({
+      clicked: clicksTotal
+    })
+    localStorage.setItem("clicked", clicksTotal)
+
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <button onClick={this.handleClick}>Button clicked {this.state.clicked} times</button>
       </div>
     );
   }
+
+  componentDidMount = () => {
+    // Load total clicks from local storage
+    const totalClicks = parseInt(localStorage.getItem("clicked"), 10)
+
+    // Update our state with the total clicks
+    this.setState({
+      clicked: totalClicks
+    })
+  }
+
 }
 
 export default App;
